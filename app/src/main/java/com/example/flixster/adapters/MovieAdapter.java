@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.flixster.MovieDetailsActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
@@ -74,16 +75,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             String imageUrl;
+            int radius = 30; // corner radius, higher value = more rounded
 
             // if landscape, backdrop
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 imageUrl = movie.getBackdropPath();
-                Glide.with(context).load(imageUrl).placeholder(R.drawable.flicks_backdrop_placeholder).into(ivPoster);
+                Glide.with(context)
+                        .load(imageUrl)
+                        .transform(new RoundedCorners(radius))
+                        .placeholder(R.drawable.flicks_backdrop_placeholder)
+                        .into(ivPoster);
             }
             // if portrait, poster
             else {
                 imageUrl = movie.getPosterPath();
-                Glide.with(context).load(imageUrl).placeholder(R.drawable.flicks_movie_placeholder).into(ivPoster);
+                Glide.with(context)
+                        .load(imageUrl)
+                        .transform(new RoundedCorners(radius))
+                        .placeholder(R.drawable.flicks_movie_placeholder)
+                        .into(ivPoster);
             }
         }
 
